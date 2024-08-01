@@ -9,14 +9,15 @@
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}",
-            "args": "-ea"
+            "vmArgs": [ "-ea" ]
         },
         {
             "type": "java",
             "name": "ExamplePluginTest",
             "request": "launch",
             "mainClass": "com.example.ExamplePluginTest",
-            "projectName": "custom-currency"
+            "projectName": "custom-currency",
+            "vmArgs": [ "-ea" ]
         }
     ]
 }
