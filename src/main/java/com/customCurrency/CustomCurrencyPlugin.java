@@ -23,7 +23,7 @@ import net.runelite.client.ui.overlay.infobox.InfoBoxManager;
 
 @Slf4j
 @PluginDescriptor(
-	name = "Llama's Custom Currency"
+	name = "Custom Currency"
 )
 public class CustomCurrencyPlugin extends Plugin
 {
