@@ -4,30 +4,14 @@ import com.google.inject.Provides;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.stream.Stream;
 import java.io.File;
+
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
-import net.runelite.api.GameState;
-import net.runelite.api.Actor;
-import net.runelite.api.NPC;
-import net.runelite.api.Player;
-import net.runelite.api.ScriptID;
-import net.runelite.api.Skill;
-import net.runelite.api.VarClientStr;
-import net.runelite.api.events.ActorDeath;
-import net.runelite.api.events.NpcDespawned;
 import net.runelite.api.events.ChatMessage;
-import net.runelite.api.events.CommandExecuted;
-import net.runelite.api.events.ScriptPreFired;
-import net.runelite.api.events.HitsplatApplied;
 import net.runelite.api.events.GameStateChanged;
-import net.runelite.api.events.GameTick;
-import net.runelite.api.events.StatChanged;
-import net.runelite.api.events.WidgetLoaded;
-import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.RuneLite;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -36,8 +20,6 @@ import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.infobox.InfoBoxManager;
-import net.runelite.client.util.Text;
-import static net.runelite.api.widgets.WidgetID.QUEST_COMPLETED_GROUP_ID;
 
 @Slf4j
 @PluginDescriptor(
@@ -45,6 +27,10 @@ import static net.runelite.api.widgets.WidgetID.QUEST_COMPLETED_GROUP_ID;
 )
 public class CustomCurrencyPlugin extends Plugin
 {
+
+	//Custom Image if selected in config
+	private static final File CUSTOM_IMAGE = new File(RuneLite.RUNELITE_DIR, "custom_coin.png");
+
 	@Inject
 	private Client client;
 
@@ -69,6 +55,7 @@ public class CustomCurrencyPlugin extends Plugin
 	{
 		//log.info("CustomCurrencyPlugin started!");
 		createInfoPanel();
+		checkMessageUpdate();
 		updatePlugin();
 	}
 
@@ -153,6 +140,17 @@ public class CustomCurrencyPlugin extends Plugin
 	}
 
 	private BufferedImage getCoinIcon(){
+		if(config.currencyType() == CurrencyType.CUSTOM){
+			try{
+				BufferedImage img;
+				synchronized (ImageIO.class){
+					img = ImageIO.read(CUSTOM_IMAGE);
+				}
+				return img;
+			} catch (IOException e){
+				log.error("Error loading custom coin image. Set to default.", e);
+			}
+		}
 		return itemMgr.getImage(getItemID(config.currencyType()), calculateTotal(), false);
 	}
 

@@ -10,7 +10,8 @@ public enum CurrencyType {
     MARK_OF_GRACE,
     HALLOWED_MARK,
     PIECES_OF_EIGHT,
-    COLLECTION_LOG
+    COLLECTION_LOG,
+    CUSTOM
 }
 
 // To be implemented
