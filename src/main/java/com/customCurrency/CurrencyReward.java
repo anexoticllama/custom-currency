@@ -2,8 +2,8 @@ package com.customCurrency;
 
 public enum CurrencyReward {
     COLLECTION_LOG_SLOTS,
-    COMBAT_ACHIVEMENTS,
-    AREA_ACHIVEMENTS,
+    COMBAT_ACHIEVEMENTS,
+    AREA_ACHIEVEMENTS,
     CLUES,
     XP
 }
